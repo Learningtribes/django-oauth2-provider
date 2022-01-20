@@ -20,5 +20,9 @@ class ClientAdmin(admin.ModelAdmin):
     list_display = ('url', 'user', 'redirect_uri', 'client_id', 'client_type')
     raw_id_fields = ('user',)
 
+    def get_queryset(self, request):
+        qs = super(ClientAdmin, self).get_queryset(request)
+        return qs.exclude(user__username__in=["lms_catalog_service_user", "veda_service_user"])
+
 
 admin.site.register(RefreshToken)
